@@ -94,7 +94,7 @@ class BrowsableAPIRenderer(BaseRenderer):
         if view_description is not None:
             view_description = dedent(view_description)
 
-        status = options['status']
+        status = options['status_text']
         headers = options['headers']
         headers['Content-Type'] = str(mock_media_type)
 

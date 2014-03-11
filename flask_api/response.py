@@ -1,34 +1,34 @@
 # coding: utf8
 from __future__ import unicode_literals
+from coreapi import BaseResponse
 from flask import request, Response
 from flask._compat import text_type, string_types
 
 
-class APIResponse(Response):
+class APIResponse(BaseResponse, Response):
     def __init__(self, content=None, *args, **kwargs):
         super(APIResponse, self).__init__(None, *args, **kwargs)
 
-        media_type = None
         if isinstance(content, (list, dict, text_type, string_types)):
-            renderer = request.accepted_renderer
-            if content != '' or renderer.handles_empty_responses:
-                media_type = request.accepted_media_type
-                options = self.get_renderer_options()
-                content = renderer.render(content, media_type, **options)
-                if self.status_code == 204:
-                    self.status_code = 200
-
-        if isinstance(content, (text_type, bytes, bytearray)):
+            self.render(content, request)
+        elif isinstance(content, (bytes, bytearray)):
             self.set_data(content)
         else:
             self.response = content
 
-        if media_type is not None:
-            self.headers['Content-Type'] = str(media_type)
+    # CoreAPI integration points...
 
-    def get_renderer_options(self):
-        return {
-            'status': self.status,
-            'status_code': self.status_code,
-            'headers': self.headers
-        }
+    def _get_headers(self):
+        return self.headers
+
+    def _get_status_code(self):
+        return self.status_code
+
+    def _set_status_code(self, status_code):
+        self.status_code = status_code
+
+    def _set_content(self, content):
+        self.set_data(content)
+
+    def _set_content_type(self, content_type):
+        self.headers['Content-Type'] = content_type
