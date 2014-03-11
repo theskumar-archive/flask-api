@@ -2,21 +2,20 @@
 from __future__ import unicode_literals
 from coreapi import exceptions
 from coreapi.mediatypes import MediaType, parse_accept_header
-from flask import request
 
 
 class BaseNegotiation(object):
-    def select_parser(self, parsers):
+    def select_parser(self, request, parsers):
         msg = '`select_parser()` method must be implemented for class "%s"'
         raise NotImplementedError(msg % self.__class__.__name__)
 
-    def select_renderer(self, renderers):
+    def select_renderer(self, request, renderers):
         msg = '`select_renderer()` method must be implemented for class "%s"'
         raise NotImplementedError(msg % self.__class__.__name__)
 
 
 class DefaultNegotiation(BaseNegotiation):
-    def select_parser(self, parsers):
+    def select_parser(self, request, parsers):
         """
         Determine which parser to use for parsing the request body.
         Returns a two-tuple of (parser, content type).
@@ -31,7 +30,7 @@ class DefaultNegotiation(BaseNegotiation):
 
         raise exceptions.UnsupportedMediaType()
 
-    def select_renderer(self, renderers):
+    def select_renderer(self, request, renderers):
         """
         Determine which renderer to use for rendering the response body.
         Returns a two-tuple of (renderer, content type).

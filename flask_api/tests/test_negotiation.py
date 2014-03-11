@@ -1,6 +1,7 @@
 # coding: utf8
 from __future__ import unicode_literals
 from coreapi import exceptions
+from flask import request
 from flask_api.negotiation import BaseNegotiation, DefaultNegotiation
 import flask_api
 import unittest
@@ -27,7 +28,7 @@ class TestRendererNegotiation(unittest.TestCase):
         renderers = [JSON, HTML]
         headers = {'Accept': 'application/html'}
         with app.test_request_context(headers=headers):
-            renderer, media_type = negotiation.select_renderer(renderers)
+            renderer, media_type = negotiation.select_renderer(request, renderers)
             self.assertEqual(renderer, HTML)
             self.assertEqual(str(media_type), 'application/html')
 
@@ -35,7 +36,7 @@ class TestRendererNegotiation(unittest.TestCase):
         negotiation = DefaultNegotiation()
         renderers = [JSON, HTML]
         with app.test_request_context():
-            renderer, media_type = negotiation.select_renderer(renderers)
+            renderer, media_type = negotiation.select_renderer(request, renderers)
             self.assertEqual(renderer, JSON)
             self.assertEqual(str(media_type), 'application/json')
 
@@ -44,7 +45,7 @@ class TestRendererNegotiation(unittest.TestCase):
         renderers = [JSON, HTML]
         headers = {'Accept': '*/*'}
         with app.test_request_context(headers=headers):
-            renderer, media_type = negotiation.select_renderer(renderers)
+            renderer, media_type = negotiation.select_renderer(request, renderers)
             self.assertEqual(renderer, JSON)
             self.assertEqual(str(media_type), 'application/json')
 
@@ -54,12 +55,12 @@ class TestRendererNegotiation(unittest.TestCase):
         headers = {'Accept': 'application/xml'}
         with app.test_request_context(headers=headers):
             with self.assertRaises(exceptions.NotAcceptable):
-                renderer, media_type = negotiation.select_renderer(renderers)
+                renderer, media_type = negotiation.select_renderer(request, renderers)
 
     def test_renderer_negotiation_not_implemented(self):
         negotiation = BaseNegotiation()
         with self.assertRaises(NotImplementedError) as context:
-            negotiation.select_renderer([])
+            negotiation.select_renderer(request, [])
         msg = str(context.exception)
         expected = '`select_renderer()` method must be implemented for class "BaseNegotiation"'
         self.assertEqual(msg, expected)
@@ -71,7 +72,7 @@ class TestParserNegotiation(unittest.TestCase):
         parsers = [JSON, URLEncodedForm]
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
         with app.test_request_context(headers=headers):
-            renderer, media_type = negotiation.select_parser(parsers)
+            renderer, media_type = negotiation.select_parser(request, parsers)
             self.assertEqual(renderer, URLEncodedForm)
             self.assertEqual(str(media_type), 'application/x-www-form-urlencoded')
 
@@ -81,12 +82,12 @@ class TestParserNegotiation(unittest.TestCase):
         headers = {'Content-Type': 'application/xml'}
         with app.test_request_context(headers=headers):
             with self.assertRaises(exceptions.UnsupportedMediaType):
-                renderer, media_type = negotiation.select_parser(parsers)
+                renderer, media_type = negotiation.select_parser(request, parsers)
 
     def test_parser_negotiation_not_implemented(self):
         negotiation = BaseNegotiation()
         with self.assertRaises(NotImplementedError) as context:
-            negotiation.select_parser([])
+            negotiation.select_parser(request, [])
         msg = str(context.exception)
         expected = '`select_parser()` method must be implemented for class "BaseNegotiation"'
         self.assertEqual(msg, expected)

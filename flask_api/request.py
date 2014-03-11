@@ -48,7 +48,7 @@ class APIRequest(Request):
         parsers = [parser_cls() for parser_cls in self.parser_classes]
         options = self._get_parser_options()
         try:
-            parser, media_type = negotiator.select_parser(parsers)
+            parser, media_type = negotiator.select_parser(self, parsers)
             ret = parser.parse(self.stream, media_type, **options)
         except:
             # Ensure that accessing `request.data` again does not reraise
@@ -100,7 +100,7 @@ class APIRequest(Request):
         """
         negotiator = self.negotiator_class()
         renderers = [renderer() for renderer in self.renderer_classes]
-        self._accepted_renderer, self._accepted_media_type = negotiator.select_renderer(renderers)
+        self._accepted_renderer, self._accepted_media_type = negotiator.select_renderer(self, renderers)
 
     # Method and content type overloading.
 
