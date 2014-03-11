@@ -1,9 +1,7 @@
 # coding: utf8
 from __future__ import unicode_literals
 from coreapi import exceptions, parsers
-from werkzeug.formparser import MultiPartParser as WerkzeugMultiPartParser
-from werkzeug.formparser import default_stream_factory
-from werkzeug.urls import url_decode_stream
+from werkzeug import formparser, urls
 
 
 BaseParser = parsers.BaseParser
@@ -16,7 +14,8 @@ class MultiPartParser(BaseParser):
     handles_form_data = True
 
     def parse(self, stream, media_type, **options):
-        multipart_parser = WerkzeugMultiPartParser(default_stream_factory)
+        stream_factory = formparser.default_stream_factory
+        multipart_parser = formparser.MultiPartParser(stream_factory)
 
         boundary = media_type.params.get('boundary')
         if boundary is None:
@@ -38,4 +37,4 @@ class URLEncodedParser(BaseParser):
     handles_form_data = True
 
     def parse(self, stream, media_type, **options):
-        return url_decode_stream(stream)
+        return urls.url_decode_stream(stream)

@@ -1,7 +1,7 @@
 # coding: utf8
 from __future__ import unicode_literals
 from coreapi import renderers
-from flask import request, render_template, current_app
+from flask import current_app, render_template, request
 from flask.json import JSONEncoder
 from flask.globals import _request_ctx_stack
 import re
