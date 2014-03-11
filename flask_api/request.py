@@ -23,7 +23,7 @@ class APIRequest(BaseRequest, Request):
             return self.path
         return self.path + u'?' + self.query_string
 
-    # Core API integration points...
+    # CoreAPI integration points...
 
     def _get_method(self):
         return super(BaseRequest, self).method
