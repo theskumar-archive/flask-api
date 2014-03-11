@@ -36,7 +36,7 @@ class DefaultNegotiation(BaseNegotiation):
         Determine which renderer to use for rendering the response body.
         Returns a two-tuple of (renderer, content type).
         """
-        accept_header = request.headers.get('Accept', '*/*')
+        accept_header = request.accept or '*/*'
 
         for client_media_types in parse_accept_header(accept_header):
             for renderer in renderers:

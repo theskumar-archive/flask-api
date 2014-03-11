@@ -170,6 +170,10 @@ class APIRequest(Request):
             return self.path
         return self.path + u'?' + self.query_string
 
+    @property
+    def accept(self):
+        return self.headers.get('Accept')
+
     # @property
     # def auth(self):
     #     if not has_attribute(self, '_auth'):
