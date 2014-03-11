@@ -1,7 +1,7 @@
 # coding: utf8
 from __future__ import unicode_literals
+from coreapi import exceptions
 from flask import request
-from flask_api import exceptions
 import flask_api
 import io
 import unittest

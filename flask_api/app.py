@@ -1,8 +1,8 @@
 # coding: utf8
 from __future__ import unicode_literals
+from coreapi.exceptions import APIException
 from flask import request, Flask, Blueprint
 from flask._compat import reraise, string_types, text_type
-from flask_api.exceptions import APIException
 from flask_api.request import APIRequest
 from flask_api.response import APIResponse
 from flask_api.settings import APISettings

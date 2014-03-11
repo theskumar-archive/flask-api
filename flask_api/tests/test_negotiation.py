@@ -1,9 +1,9 @@
 # coding: utf8
 from __future__ import unicode_literals
-import unittest
-import flask_api
-from flask_api import exceptions
+from coreapi import exceptions
 from flask_api.negotiation import BaseNegotiation, DefaultNegotiation
+import flask_api
+import unittest
 
 
 app = flask_api.FlaskAPI(__name__)
