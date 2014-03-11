@@ -1,7 +1,7 @@
 # coding: utf8
 from __future__ import unicode_literals
+from coreapi.negotiation import DefaultNegotiation
 from flask import Request
-from flask_api.negotiation import DefaultNegotiation
 from flask_api.settings import default_settings
 from werkzeug.datastructures import MultiDict
 from werkzeug.urls import url_decode_stream

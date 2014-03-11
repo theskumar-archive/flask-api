@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from coreapi import exceptions
 from flask import request
-from flask_api.negotiation import BaseNegotiation, DefaultNegotiation
+from coreapi.negotiation import BaseNegotiation, DefaultNegotiation
 import flask_api
 import unittest
 
