@@ -1,5 +1,6 @@
 from flask import request, url_for
-from flask.ext.api import FlaskAPI, status, exceptions
+from flask.ext.api import FlaskAPI
+from coreapi import status, exceptions
 
 app = FlaskAPI(__name__)
 
