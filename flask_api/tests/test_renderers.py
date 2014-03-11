@@ -1,22 +1,21 @@
 # coding: utf8
 from __future__ import unicode_literals
-from coreapi import status
+from coreapi import status, mediatypes
 from flask_api import renderers, FlaskAPI
 from flask_api.decorators import set_renderers
-from flask_api.mediatypes import MediaType
 import unittest
 
 
 class RendererTests(unittest.TestCase):
     def test_render_json(self):
         renderer = renderers.JSONRenderer()
-        content = renderer.render({'example': 'example'}, MediaType('application/json'))
+        content = renderer.render({'example': 'example'}, mediatypes.MediaType('application/json'))
         expected = '{"example": "example"}'
         self.assertEqual(content, expected)
 
     def test_render_json_with_indent(self):
         renderer = renderers.JSONRenderer()
-        content = renderer.render({'example': 'example'}, MediaType('application/json; indent=4'))
+        content = renderer.render({'example': 'example'}, mediatypes.MediaType('application/json; indent=4'))
         expected = '{\n    "example": "example"\n}'
         self.assertEqual(content, expected)
 

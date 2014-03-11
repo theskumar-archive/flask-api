@@ -1,6 +1,6 @@
 # coding: utf8
 from __future__ import unicode_literals
-from flask_api.mediatypes import MediaType, parse_accept_header
+from coreapi.mediatypes import MediaType, parse_accept_header
 import unittest
 
 
