@@ -60,6 +60,7 @@ class BrowsableAPIRenderer(renderers.BrowsableAPIRenderer):
 
         context.update({
             'allowed_methods': allowed_methods,
+            'static_prefix': '/flask-api/static/',
             'view_name': convert_to_title(view_name),
             'view_description': view_description,
             'version': __version__

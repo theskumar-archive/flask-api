@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export PYTHONPATH=.
+export PYTHONPATH=.:../coreapi
 set -e
 
 coverage run --omit=flask_api/tests/runtests.py,flask_api/tests/__init__.py --source=flask_api flask_api/tests/runtests.py $@

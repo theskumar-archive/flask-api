@@ -8,19 +8,24 @@ from flask_api.response import APIResponse
 from flask_api.settings import APISettings
 from itertools import chain
 from werkzeug.exceptions import HTTPException
+from jinja2 import Markup, escape
 import re
 import sys
+import coreapi
 
 
 api_resources = Blueprint(
     'flask-api', __name__,
     url_prefix='/flask-api',
-    template_folder='templates', static_folder='static'
+    template_folder=coreapi.template_dir,
+    static_folder=coreapi.static_dir
 )
 
 
 def urlize_quoted_links(content):
-    return re.sub(r'"(https?://[^"]*)"', r'"<a href="\1">\1</a>"', content)
+    content = escape(content)
+    re.sub(r'&#34;(https?://[^&]*)&#34;', r'"<a href="\1">\1</a>"', content)
+    return Markup(content)
 
 
 class FlaskAPI(Flask):
